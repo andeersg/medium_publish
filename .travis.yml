@@ -1,0 +1,43 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+
+branches:
+  only:
+    - "7.x-1.x"
+
+addons:
+  apt:
+    packages:
+      - php5-cgi
+      - php5-mysql
+
+mysql:
+  database: medium_publish
+  username: root
+  encoding: utf8
+
+install:
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - composer global require drush/drush:6.4.0
+  - composer global require youngj/httpserver:dev-master
+
+before_script:
+  - phpenv config-rm xdebug.ini || true
+  - TESTDIR=$(pwd)
+  - cd ..
+  - mysql -e 'create database medium_publish'
+  - git clone --branch 7.x --depth 1 http://git.drupal.org/project/drupal.git
+  - cd drupal
+  - php -d sendmail_path=`which true` ~/.composer/vendor/bin/drush.php --yes site-install --db-url=mysql://root:@127.0.0.1/medium_publish testing
+  - drush --yes pm-download ctools token
+  - ln -s $TESTDIR sites/all/modules/medium_publish
+  - drush --yes pm-enable medium_publish
+
+script:
+  - drush runserver 127.0.0.1:8080 &
+  - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; sleep 1; curl -I http://127.0.0.1:8080 ; do true; done
+  - drush test-run --uri=http://127.0.0.1:8080 "medium_publish"
