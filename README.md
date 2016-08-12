@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/andeersg/medium_publish.svg)](https://travis-ci.org/andeersg/medium_publish)
+
 Medium Publish
 -------
 This module allows you to publish/export your content to Medium.com.
