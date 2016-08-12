@@ -35,7 +35,7 @@ before_script:
   - php -d sendmail_path=`which true` ~/.composer/vendor/bin/drush.php --yes site-install --db-url=mysql://root:@127.0.0.1/medium_publish testing
   - drush --yes pm-download ctools token
   - ln -s $TESTDIR sites/all/modules/medium_publish
-  - drush --yes pm-enable medium_publish
+  - drush --yes pm-enable simpletest
 
 script:
   - drush runserver 127.0.0.1:8080 &
