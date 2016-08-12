@@ -7,9 +7,7 @@ This module allows you to publish/export your content to Medium.com.
 
 Configuration
 --------------------------------------------------------------------------------
- 1. On the People Permissions administration page ("Administer >> People
-    >> Permissions") you need to assign:
-
+ 1. On the People Permissions administration page ("Administer >> People >> Permissions") you need to assign:
     - The "Administer Medium settings" permission to the roles that are allowed to
       access the Medium publish admin pages, edit application settings and add/edit
       configs.
